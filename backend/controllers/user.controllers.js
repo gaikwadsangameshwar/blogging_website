@@ -161,4 +161,62 @@ const getAllUsers=asyncHandler(async(req,res)=>{
     )
 })
 
-export { getAllUsers,getSingleUser,registerUser,login,logout }
+const changeUserPassword =asyncHandler(async(req,res)=>{
+    const {oldPassword,newPassword}=req.body
+
+    const user=await User.findById(req.user?.id)
+
+    const PasswordValidation=await user.isPasswordCorrect(oldPassword)
+    if(PasswordValidation){
+        throw new ApiError(401,"Password is incorrect")
+    }
+
+    user.password=newPassword;
+    await user.save({validateBeforeSave:false})
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(201,{},"Password is change")
+    )
+})
+
+const changeUserAvatar=asyncHandler(async(req,res)=>{
+
+    const avatarLocalPath= req.file?.path
+
+    if(!avatarLocalPath){
+        throw new ApiError(401,"avatar is missing")
+    }
+
+    const avatar=await uploadOnCloudinary(avatarLocalPath)
+    if(!avatar.url){
+        throw new ApiError(401,"avatar is missing while uploading")
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set:{
+                avatar: avatar.url
+            }
+        },
+        {new: true}
+    ).select("-password")
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, user, "Avatar image updated successfully")
+    )
+})
+
+export { 
+    changeUserAvatar,
+    changeUserPassword,
+    getAllUsers,
+    getSingleUser,
+    registerUser,
+    login,
+    logout 
+}
