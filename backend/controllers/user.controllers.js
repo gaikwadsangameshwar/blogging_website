@@ -211,6 +211,10 @@ const changeUserAvatar=asyncHandler(async(req,res)=>{
     )
 })
 
+const changeAccountDetails=asyncHandler(async(req,res)=>{
+    
+})
+
 export { 
     changeUserAvatar,
     changeUserPassword,
