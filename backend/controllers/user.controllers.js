@@ -140,4 +140,29 @@ const logout=asyncHandler(async(req,res)=>{
     )
 }) 
 
-export { registerUser,login,logout }
+const getSingleUser=asyncHandler(async(req,res)=>{
+    const user=await User.findById(req.user?._id).select("-password -refreshToken")
+
+    if(!user){
+        throw new ApiError(401,"user is not getting")
+    }
+
+    return res.status(200).json(
+        new ApiResponse(201,user,"Current user is get successfully")
+    )
+})
+
+const getAllUsers=asyncHandler(async(req,res)=>{
+
+    // if(req.user.role !== "admin"){
+    //     throw new ApiError(401,"access denied only admin can access this")
+    // }
+
+    const user=await User.find({}).select("-password -refreshToken")
+
+    return res.status(200).json(
+        new ApiResponse(201,user,"Get All the users")
+    )
+})
+
+export { getAllUsers,getSingleUser,registerUser,login,logout }

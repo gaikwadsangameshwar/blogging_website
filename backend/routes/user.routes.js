@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { login, logout, registerUser } from "../controllers/user.controllers.js";
+import { getAllUsers, getSingleUser, login, logout, registerUser } from "../controllers/user.controllers.js";
 import { upload } from "../middlewares/multer.middlewares.js";
-import { VerifyJWT } from "../middlewares/auth.middlewares.js";
+import { VerifyJWT,isAdmin } from "../middlewares/auth.middlewares.js";
 
 const router=Router()
+
+router.route("/").get(VerifyJWT,isAdmin,getAllUsers)
 
 router.route("/register").post(upload.fields([
     {
@@ -14,5 +16,6 @@ router.route("/register").post(upload.fields([
 
 router.route("/login").post(login)
 router.route("/logout").post(VerifyJWT,logout)
+router.route("/me").get(VerifyJWT,getSingleUser)
 
 export default router;

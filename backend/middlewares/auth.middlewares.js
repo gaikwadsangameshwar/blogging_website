@@ -29,5 +29,16 @@ export const VerifyJWT=asyncHandler(async(req,res,next)=>{
     catch (error) {
         throw new ApiError(500,error?.message,"Tokens is not created")
     }
+})
 
+export const isAdmin=asyncHandler(async(req,_,next)=>{
+
+    if(!req.user){
+        throw new ApiError(401,"unAuthorized")
+    }
+    
+    if (req.user.role !== "admin") {
+        throw new ApiError(403, "Access denied: Admin only");
+    }
+    next()
 })
