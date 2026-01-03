@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import asyncHandler from "../utils/asyncHandler.js"
 import { User } from "../models/userModels.js"
+import JWT from "jsonwebtoken"
 
 const generateAccessAndRefreshToken=async(GetUserId)=>{
     try {
@@ -140,6 +141,55 @@ const logout=asyncHandler(async(req,res)=>{
     )
 }) 
 
+const refreshAccessToken = asyncHandler(async (req, res) => {
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+
+    if (!incomingRefreshToken) {
+        throw new ApiError(401, "unauthorized request")
+    }
+
+    try {
+        const decodedToken = JWT.verify(
+            incomingRefreshToken,
+            process.env.REFRESH_TOKEN_SECRET
+        )
+    
+        const user = await User.findById(decodedToken?._id)
+    
+        if (!user) {
+            throw new ApiError(401, "Invalid refresh token")
+        }
+    
+        if (incomingRefreshToken !== user?.refreshToken) {
+            throw new ApiError(401, "Refresh token is expired or used")
+            
+        }
+    
+        const options = {
+            httpOnly: true,
+            secure: true
+        }
+    
+        const {accessToken, newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
+    
+        return res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", newRefreshToken, options)
+        .json(
+            new ApiResponse(
+                200, 
+                {accessToken, refreshToken: newRefreshToken},
+                "Access token refreshed"
+            )
+        )
+    } catch (error) {
+        throw new ApiError(401, error?.message || "Invalid refresh token")
+    }
+
+})
+
+
 const getSingleUser=asyncHandler(async(req,res)=>{
     const user=await User.findById(req.user?._id).select("-password -refreshToken")
 
@@ -214,12 +264,47 @@ const changeUserAvatar=asyncHandler(async(req,res)=>{
 })
 
 const changeAccountDetails=asyncHandler(async(req,res)=>{
+        
+    try {
+        const {username,email}=req.body
     
+        if(!username || !email){
+            throw new ApiError(401,"All Fileds are required")
+        }
+
+        const user=await User.findByIdAndUpdate(
+            req.user?._id,
+            {
+                $set:{
+                    username,
+                    email:email
+                }                
+            },
+            {
+                new:true
+            }
+        ).select("-password")
+
+
+        return res
+        .stauts(200)
+        .json(
+            new ApiResponse(201,user,"User Account Deatails Updated")
+        )
+
+    } 
+    catch (error) {
+        
+    }
+
 })
 
+
 export { 
+    changeAccountDetails,
     changeUserAvatar,
     changeUserPassword,
+    refreshAccessToken,
     getAllUsers,
     getSingleUser,
     registerUser,
