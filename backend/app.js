@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.routes.js"
+import postRouer from "./routes/post.routes.js"
 
 const app=express()
 
@@ -20,6 +21,6 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 app.use("/api/v1/users",userRouter)
-
+app.use("/api/v1/posts",postRouer)
 
 export default app;

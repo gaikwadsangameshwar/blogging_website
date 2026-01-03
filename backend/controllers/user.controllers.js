@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import asyncHandler from "../utils/asyncHandler.js"
 import { User } from "../models/userModels.js"
+import { Post } from "../models/postModels.js"
 import JWT from "jsonwebtoken"
 
 const generateAccessAndRefreshToken=async(GetUserId)=>{
@@ -195,7 +196,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 })
 
 
-
 const getSingleUser=asyncHandler(async(req,res)=>{
     const user=await User.findById(req.user?._id).select("-password -refreshToken")
 
@@ -312,6 +312,40 @@ const changeAccountDetails=asyncHandler(async(req,res)=>{
 
 })
 
+const toggleLike = asyncHandler(async (req, res) => {
+    const { postId } = req.params;
+    const userId = req.user._id; 
+
+    const post = await Post.findById(postId);
+    const user = await User.findById(userId);
+
+    if (!post || !user) {
+        throw new ApiError(404, "Post or user not found");
+    }
+
+    const hasLiked = post.likes.includes(userId);
+
+    if (hasLiked) {
+        post.likes.pull(userId);
+        user.likedPosts.pull(postId);
+    } else {
+        post.likes.push(userId);
+        user.likedPosts.push(postId);
+    }
+
+    await post.save();
+    await user.save();
+
+    res.status(200).json(
+        new ApiResponse(200, {
+            postId,
+            liked: !hasLiked,
+            totalLikes: post.likes.length
+        }, `Post ${!hasLiked ? "liked" : "unliked"} successfully`)
+    );
+});
+
+
 
 export { 
     changeAccountDetails,
@@ -322,5 +356,6 @@ export {
     getSingleUser,
     registerUser,
     login,
-    logout 
+    logout,
+    toggleLike 
 }

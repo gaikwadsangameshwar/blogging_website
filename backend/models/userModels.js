@@ -35,7 +35,13 @@ const userSchema=new Schema(
         avatar:{
             type:String,
             required:true
-        }
+        },
+        likedPosts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Post"
+            }
+        ]
     },
     {timestamps:true}
 )
