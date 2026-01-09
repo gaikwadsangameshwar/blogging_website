@@ -6,7 +6,8 @@ import RegisterUser from './Components/auth/RegisterUser'
 import LoginForm from './Components/auth/LoginForm'
 import BlogSingleDetails from './Components/blog/BlogSingleDetails'
 import UserProfile from './Components/auth/UserProfile'
-
+import EditProfile from './Components/auth/EditProfile'
+import ChangeAvatar from './Components/auth/ChangeAvatar'
 
 function App() {
 
@@ -19,7 +20,9 @@ function App() {
       <Route path='/login' element={<LoginForm/>}/>
 
 
-      <Route path='/profile' element={<UserProfile/>}/>
+      <Route path="/profile" element={<UserProfile />}/>
+      <Route path="/editprofile" element={<EditProfile/>}/>
+      <Route path="/changeavatar" element={<ChangeAvatar/>}/>
     </Routes>
   )
 }
