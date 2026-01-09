@@ -33,7 +33,7 @@ export default function LoginForm() {
       setLoading(true);
       await loginUser(formData); 
       toast.success("Login successful!");
-      navigate("/dashboard"); 
+      navigate("/createblog"); 
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     } finally {
@@ -80,7 +80,7 @@ export default function LoginForm() {
 
         <p className="text-center text-sm">
           Don’t have an account?{" "}
-          <Link to="/signup" className="text-blue-500">
+          <Link to="/register" className="text-blue-500">
             Signup
           </Link>
         </p>

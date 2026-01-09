@@ -11,7 +11,6 @@ export const loginUser=async(data)=>{
   return res.data;
 }
 
-
 export const logout=async(data)=>{
   const res=await axiosInstance.post("/users/logout",data)
   return res.data;

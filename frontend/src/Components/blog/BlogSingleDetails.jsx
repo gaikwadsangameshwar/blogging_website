@@ -7,28 +7,25 @@ export default function BlogSingleDetails() {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
-    console.log("postId",postId)
-        useEffect(() => {
-        if (!postId) {
-            setLoading(false);
-            return;
-        }
+useEffect(() => {
+  if (!postId) return;
 
-        const fetchBlog = async () => {
-            try {
-            const res = await axios.get(
-                `http://localhost:2000/api/v1/posts/${postId}`
-            );
-            setBlog(res.data.data);
-            } catch (error) {
-            console.error("Frontend error:", error.message);
-            } finally {
-            setLoading(false);
-            }
-        };
+  const fetchBlog = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:2000/api/v1/posts/${postId}`
+      );
+      setBlog(res.data.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        fetchBlog();
-        }, [postId]);
+  fetchBlog();
+}, [postId]);
+
 
 
   if (loading) return <p>Loading...</p>;

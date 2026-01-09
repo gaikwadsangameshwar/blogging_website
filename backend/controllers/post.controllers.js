@@ -11,9 +11,9 @@ const createPost = asyncHandler(async (req, res) => {
         console.log("req.file:", req.file);
         console.log("req.body:", req.body);
     
-        const { title, content, category } = req.body;
+        const { title, context, category } = req.body;
     
-        if (!title || !content || !category) {
+        if (!title || !context || !category) {
         throw new ApiError(400, "All fields are required");
         }
     
@@ -31,7 +31,7 @@ const createPost = asyncHandler(async (req, res) => {
     
         const post = await Post.create({
             title,
-            content,
+            context,
             category,
             thumbnail: uploadedImage.secure_url,
             author: req.user._id,
@@ -49,7 +49,7 @@ const createPost = asyncHandler(async (req, res) => {
 const getSinglePost=asyncHandler(async(req,res)=>{
 
     try {
-        const {postId}=req.params
+        const {postId}=req.params()
 
         if(!postId){
             throw new ApiError(401,"Post Id is required")

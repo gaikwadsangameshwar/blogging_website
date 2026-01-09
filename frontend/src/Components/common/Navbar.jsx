@@ -6,7 +6,8 @@ function Navbar() {
     const navigate=useNavigate();
 
   return (
-    <div className='cursor-pointer flex justify-between items-center py-5 mx-8 sm:mx-20 xl:msx-22'>
+    <div className='cursor-pointer flex justify-between items-center py-5 mx-8 
+    sm:mx-20 xl:msx-22'>
         <p onClick={()=>navigate("/")}>Blog_App</p>
         
         <button
@@ -18,4 +19,4 @@ function Navbar() {
   )
 }
 
-export default Navbar
+export default Navbar 

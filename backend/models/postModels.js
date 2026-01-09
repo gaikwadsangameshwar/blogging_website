@@ -4,15 +4,13 @@ const postSchema=new Schema({
         title:{
             type:String,
             required:[true,"The Title is required"],
-            unique:true,
             trim:true,
             index:true
         },
-        content: {
+        context: {
             type: String,
             required: [true, "The Description is required"],
             minlength: [10, "Description must be at least 10 characters"],
-            maxlength: [300, "Description must be at most 300 characters"],
             index: true
         },
         thumbnail:{
