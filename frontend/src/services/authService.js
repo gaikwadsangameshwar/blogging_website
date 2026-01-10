@@ -17,26 +17,28 @@ export const logout=async(data)=>{
 }
 
 
-export const getProfile = async (data) => {
-  const  res  = await axiosInstance.get("/users/me",data);
+export const getProfile = async () => {
+  const token = localStorage.getItem("token");
+
+  const res = await axiosInstance.get("/users/me", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
   return res.data;
 };
 
 
-export const changeDetails = async (details) => {
-  const { data } = await axiosInstance.patch(
-    "/users/change-details",
-    details
-  );
-  return data;
+
+export const updateDetails = async (data) => {
+  const res = await axiosInstance.patch("/users/change-details",data);
+  return res.data;
 };
 
 
 export const updateProfile = async (formData) => {
-  const { data } = await axiosInstance.put(
-    "/users/profile",
-    formData,
-    {
+  const { data } = await axiosInstance.post("/users/change-avatar",formData,{
       headers: { "Content-Type": "multipart/form-data" },
     }
   );
@@ -44,7 +46,7 @@ export const updateProfile = async (formData) => {
 };
 
 export const updatePassword = async (passwordData) => {
-  const { data } = await axiosInstance.put(
+  const { data } = await axiosInstance.post(
     "/users/change-password",
     passwordData
   );

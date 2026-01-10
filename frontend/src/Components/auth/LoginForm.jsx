@@ -41,6 +41,15 @@ export default function LoginForm() {
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-900 text-white px-4 md:px-20 gap-10">
+
+      <div className="text-center md:text-left md:w-1/2 space-y-4">
+        <h1 className="text-3xl font-bold">Welcome Back!</h1>
+        <p className="text-gray-300">
+          Login to access your account and start exploring amazing blogs on our platform.
+        </p>
+      </div>
+
+      
       <form
         noValidate
         onSubmit={handleSubmit}
@@ -83,13 +92,6 @@ export default function LoginForm() {
           </Link>
         </p>
       </form>
-
-      <div className="text-center md:text-left md:w-1/2 space-y-4">
-        <h1 className="text-3xl font-bold">Welcome Back!</h1>
-        <p className="text-gray-300">
-          Login to access your account and start exploring amazing blogs on our platform.
-        </p>
-      </div>
     </div>
   );
 }

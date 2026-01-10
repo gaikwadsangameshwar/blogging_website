@@ -223,7 +223,7 @@ const changeUserPassword =asyncHandler(async(req,res)=>{
     const user=await User.findById(req.user?.id)
 
     const PasswordValidation=await user.isPasswordCorrect(oldPassword)
-    if(PasswordValidation){
+    if(!PasswordValidation){
         throw new ApiError(401,"Password is incorrect")
     }
 
