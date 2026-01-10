@@ -49,7 +49,7 @@ const createPost = asyncHandler(async (req, res) => {
 const getSinglePost=asyncHandler(async(req,res)=>{
 
     try {
-        const {postId}=req.params()
+        const {postId}=req.params
 
         if(!postId){
             throw new ApiError(401,"Post Id is required")

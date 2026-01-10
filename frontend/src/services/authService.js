@@ -30,7 +30,6 @@ export const getProfile = async () => {
 };
 
 
-
 export const updateDetails = async (data) => {
   const res = await axiosInstance.patch("/users/change-details",data);
   return res.data;
@@ -51,5 +50,10 @@ export const updatePassword = async (passwordData) => {
     passwordData
   );
   return data;
+};
+
+export const toggleLike = async (postId) => {
+  const res = await axiosInstance.patch(`/users/like/${postId}`);
+  return res.data.data;
 };
 
