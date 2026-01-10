@@ -10,7 +10,7 @@ export default function Profile() {
     const fetchProfile = async () => {
       try {
         const res = await getProfile();
-        setUser(res.data); // your backend returns { success, message, data }
+        setUser(res.data); 
       } catch (err) {
         console.error("Profile fetch failed", err);
       } finally {
