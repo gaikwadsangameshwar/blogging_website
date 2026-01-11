@@ -8,6 +8,7 @@ export const registerUser = async (data) => {
 
 export const loginUser=async(data)=>{
   const res=await axiosInstance.post("/users/login",data)
+  console.log("dataa",res)
   return res.data;
 }
 

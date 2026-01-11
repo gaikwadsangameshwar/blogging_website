@@ -19,3 +19,13 @@ export const getSingleBlog = async (postId) => {
   }
 };
 
+
+export const updateBlog=async()=>{
+  try {
+    const res=await axiosInstance.patch(`/posts/${postId}`)
+    return res.data.data;
+  } 
+  catch (error) {
+    console.logg("Update Blog Error",error)
+  }
+}

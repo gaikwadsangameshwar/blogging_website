@@ -18,26 +18,40 @@ export default function LoginForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
 
-    if (!formData.username || !formData.password) {
-      setError("All fields are required");
-      return;
+  try {
+    setLoading(true);
+
+    const response = await loginUser(formData);
+    console.log("LOGIN RESPONSE:", response);
+
+   
+    const { user, accessToken, refreshToken } = response.data;
+
+
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+
+    toast.success("Login successful!");
+
+    if (user.role === "admin") {
+      navigate("/home", { replace: true });
+    } else {
+      navigate("/home", { replace: true });
     }
 
-    try {
-      setLoading(true);
-      await loginUser(formData); 
-      toast.success("Login successful!");
-      navigate("/home"); 
-    } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
+    setError(err.response?.data?.message || "Login failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-900 text-white px-4 md:px-20 gap-10">

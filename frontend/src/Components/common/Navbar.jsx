@@ -1,42 +1,66 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { LayoutDashboard, PlusCircle } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { PlusCircle, User, LayoutDashboard } from "lucide-react";
 
 function Navbar() {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  const user = JSON.parse(localStorage.getItem("user")); 
-  
   return (
-    <nav className="w-full bg-gray-900 text-white flex flex-col md:flex-row items-center justify-between px-6 py-4 shadow-md sticky top-0 z-50 gap-3 md:gap-0">
-      
-      {/* Logo */}
-      <div
-        className="text-2xl font-bold cursor-pointer hover:text-blue-500 transition-colors"
-        onClick={() => navigate("/home")}
-      >
-        Blog_App
-      </div>
+    <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-gray-900/90 border-b border-gray-800 shadow-md">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
 
-      {/* Right-side buttons */}
-      <div className="flex items-center gap-3 md:gap-4 mt-2 md:mt-0">
         
-        {/* Create Blog */}
-        <button
-          onClick={() => navigate("/createblog")}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg transition-all shadow hover:shadow-md"
+        <div
+          onClick={() => navigate("/home")}
+          className="text-2xl font-extrabold tracking-wide cursor-pointer 
+                     bg-gradient-to-r from-blue-400 to-purple-500 
+                     bg-clip-text text-transparent hover:opacity-90 transition duration-300"
         >
-          <PlusCircle size={18} />
-          <span className="hidden sm:inline font-medium">Create Blog</span>
-        </button>
-        <button
-          onClick={() => navigate("/profile")}
-          className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-full transition-all shadow hover:shadow-md"
-        >
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold">
-            <span className="hidden sm:inline p-2 font-medium">Profile</span>
-          </div>
-        </button>
+          Blog_App
+        </div>
+
+       
+        <div className="flex items-center gap-3">
+
+         
+          <button
+            onClick={() => navigate("/createblog")}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg
+                       bg-blue-600 hover:bg-blue-500 transition-all
+                       shadow-md hover:shadow-lg hover:shadow-blue-500/50
+                       text-white font-medium"
+          >
+            <PlusCircle size={18} />
+            <span className="hidden sm:inline">Create Blog</span>
+          </button>
+
+          
+          {user?.role === "admin" && (
+            <Link
+              to="/dashboard"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg
+                         bg-gradient-to-r from-purple-500 to-blue-500
+                         hover:opacity-90 transition-all shadow-md hover:shadow-lg
+                         text-white font-medium"
+            >
+              <LayoutDashboard size={18} /> 
+              <span>Dashboard</span>
+            </Link>
+          )}
+
+          
+          <button
+            onClick={() => navigate("/profile")}
+            className="flex items-center gap-2 px-4 py-2 rounded-full
+                       bg-gray-100 hover:bg-gray-200 transition-all shadow-sm
+                       font-medium text-gray-900"
+          >
+            <User size={18} />
+            <span className="hidden sm:inline">Profile</span>
+          </button>
+
+        </div>
       </div>
     </nav>
   );

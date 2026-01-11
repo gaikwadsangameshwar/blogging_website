@@ -54,7 +54,7 @@ export default function CreateBlog({ onNewBlog }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-white p-4">
       <form className="w-full max-w-lg bg-gray-800 rounded-2xl shadow-xl p-8 flex flex-col gap-6" onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold text-white text-center">Create a New Blog</h2>
 
