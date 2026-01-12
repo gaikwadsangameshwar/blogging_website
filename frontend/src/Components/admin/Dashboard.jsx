@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAllUser } from "../../services/authService";
-import { getAllBlog,deleteBlog } from "../../services/blogService";
+import { getAllBlog, deleteBlog } from "../../services/blogService";
 import { Link } from "react-router-dom";
-
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -10,7 +9,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   const token = localStorage.getItem("accessToken");
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,84 +26,89 @@ const Dashboard = () => {
   }, []);
 
   const handleDeleteBlog = async (blogId) => {
-  const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
-  if (!confirmDelete) return;
+    if (!window.confirm("Delete this blog?")) return;
 
-  try {
-    await deleteBlog(blogId, token);
+    try {
+      await deleteBlog(blogId, token);
+      setBlogs((prev) => prev.filter((b) => b._id !== blogId));
+    } catch (err) {
+      alert("Failed to delete blog");
+    }
+  };
 
-    // Remove blog from UI without re-fetching
-    setBlogs((prevBlogs) =>
-      prevBlogs.filter((blog) => blog._id !== blogId)
+  if (loading) {
+    return (
+      <p className="text-center mt-20 text-lg font-semibold">Loading...</p>
     );
-  } catch (error) {
-    console.error("Failed to delete blog", error);
-    alert("Error deleting blog");
   }
-};
-
-
-
-
-  if (loading) return <p className="text-center mt-20 text-lg font-semibold">Loading...</p>;
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-xl p-6">
-        <h2 className="text-3xl font-bold text-indigo-600 mb-10">Admin Panel</h2>
-        <nav className="flex flex-col gap-6 text-lg">
-          <a href="#users" className="hover:text-indigo-500 transition-colors">All Users</a>
-          <a href="#blogs" className="hover:text-indigo-500 transition-colors">All Blogs</a>
+    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50">
+
+      {/* Sidebar / Topbar */}
+      <aside className="w-full md:w-64 bg-white shadow-md p-4 md:p-6">
+        <h2 className="text-xl md:text-3xl font-bold text-indigo-600 mb-4 md:mb-10">
+          Admin Panel
+        </h2>
+
+        <nav className="flex md:flex-col gap-4 text-sm md:text-lg">
+          <a href="#users" className="hover:text-indigo-500">Users</a>
+          <a href="#blogs" className="hover:text-indigo-500">Blogs</a>
         </nav>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-10">
+      <main className="flex-1 p-4 sm:p-6 md:p-10">
+
         {/* Stats Cards */}
-        <section className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-          <div className="bg-indigo-500 text-white rounded-xl shadow-lg p-6">
-            <h3 className="text-sm uppercase font-medium opacity-75">Total Users</h3>
-            <p className="text-3xl font-bold mt-2">{users.length}</p>
-          </div>
-          <div className="bg-green-500 text-white rounded-xl shadow-lg p-6">
-            <h3 className="text-sm uppercase font-medium opacity-75">Total Blogs</h3>
-            <p className="text-3xl font-bold mt-2">{blogs.length}</p>
-          </div>
-          <div className="bg-blue-500 text-white rounded-xl shadow-lg p-6">
-            <h3 className="text-sm uppercase font-medium opacity-75">Published Blogs</h3>
-            <p className="text-3xl font-bold mt-2">{blogs.filter(b => b.status === 'published').length}</p>
-          </div>
-          <div className="bg-yellow-500 text-white rounded-xl shadow-lg p-6">
-            <h3 className="text-sm uppercase font-medium opacity-75">Draft Blogs</h3>
-            <p className="text-3xl font-bold mt-2">{blogs.filter(b => b.status === 'draft').length}</p>
-          </div>
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <StatCard title="Total Users" value={users.length} color="indigo" />
+          <StatCard title="Total Blogs" value={blogs.length} color="green" />
+          <StatCard
+            title="Published"
+            value={blogs.filter(b => b.status === "published").length}
+            color="blue"
+          />
+          <StatCard
+            title="Drafts"
+            value={blogs.filter(b => b.status === "draft").length}
+            color="yellow"
+          />
         </section>
 
+        {/* Users Table */}
+        <section id="users" className="mb-10">
+          <h2 className="text-xl md:text-2xl font-bold text-indigo-600 mb-4">
+            All Users
+          </h2>
 
-        <section id="users" className="mb-12">
-          <h2 className="text-2xl font-bold text-indigo-600 mb-4">All Users</h2>
-          <div className="overflow-x-auto shadow-lg rounded-lg">
-            <table className="min-w-full bg-white rounded-lg">
+          <div className="overflow-x-auto bg-white rounded-lg shadow">
+            <table className="min-w-[700px] w-full">
               <thead className="bg-indigo-100 text-indigo-700">
                 <tr>
-                  <th className="p-3 text-left font-medium">Name</th>
-                  <th className="p-3 text-left font-medium">Email</th>
-                  <th className="p-3 text-left font-medium">Role</th>
-                  <th className="p-3 text-left font-medium">Joined At</th>
-                  <th className="p-3 text-left font-medium">Actions</th>
+                  <th className="p-3 text-left">Name</th>
+                  <th className="p-3 text-left">Email</th>
+                  <th className="p-3 text-left">Role</th>
+                  <th className="p-3 text-left">Joined</th>
+                  <th className="p-3 text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map(user => (
-                  <tr key={user._id} className="border-b hover:bg-indigo-50 transition-colors">
+                  <tr key={user._id} className="border-b hover:bg-indigo-50">
                     <td className="p-3">{user.username}</td>
                     <td className="p-3">{user.email}</td>
                     <td className="p-3 capitalize">{user.role}</td>
-                    <td className="p-3">{new Date(user.createdAt).toLocaleDateString()}</td>
-                    <td className="p-3 space-x-2">
-                      <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Edit</button>
-                      <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">Delete</button>
+                    <td className="p-3">
+                      {new Date(user.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="p-3 flex flex-wrap gap-2">
+                      <button className="px-3 py-1 bg-blue-500 text-white rounded">
+                        Edit
+                      </button>
+                      <button className="px-3 py-1 bg-red-500 text-white rounded">
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -114,46 +117,54 @@ const Dashboard = () => {
           </div>
         </section>
 
-        {/* All Blogs Table */}
+        {/* Blogs Table */}
         <section id="blogs">
-          <h2 className="text-2xl font-bold text-indigo-600 mb-4">All Blogs</h2>
-          <div className="overflow-x-auto shadow-lg rounded-lg">
-            <table className="min-w-full bg-white rounded-lg">
+          <h2 className="text-xl md:text-2xl font-bold text-indigo-600 mb-4">
+            All Blogs
+          </h2>
+
+          <div className="overflow-x-auto bg-white rounded-lg shadow">
+            <table className="min-w-[900px] w-full">
               <thead className="bg-purple-100 text-purple-700">
                 <tr>
-                  <th className="p-3 text-left font-medium">Title</th>
-                  <th className="p-3 text-left font-medium">Author</th>
-                  <th className="p-3 text-left font-medium">Status</th>
-                  <th className="p-3 text-left font-medium">Category</th>
-                  <th className="p-3 text-left font-medium">Created At</th>
-                  <th className="p-3 text-left font-medium">Updated At</th>
-                  <th className="p-3 text-left font-medium">Actions</th>
+                  <th className="p-3">Title</th>
+                  <th className="p-3">Author</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3">Category</th>
+                  <th className="p-3">Created</th>
+                  <th className="p-3">Updated</th>
+                  <th className="p-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {blogs.map(blog => (
-                  <tr key={blog._id} className="border-b hover:bg-purple-50 transition-colors">
+                  <tr key={blog._id} className="border-b hover:bg-purple-50">
                     <td className="p-3 font-medium">{blog.title}</td>
                     <td className="p-3">{blog.author}</td>
-                    <td className={`p-3 font-semibold ${blog.status === 'published' ? 'text-green-600' : 'text-yellow-600'}`}>
+                    <td className={`p-3 font-semibold ${
+                      blog.status === "published"
+                        ? "text-green-600"
+                        : "text-yellow-600"
+                    }`}>
                       {blog.status}
                     </td>
                     <td className="p-3">{blog.category}</td>
-                    <td className="p-3">{new Date(blog.createdAt).toLocaleDateString()}</td>
-                    <td className="p-3">{new Date(blog.updatedAt).toLocaleDateString()}</td>
-                    <td className="p-3 space-x-2">
-                       <button>
-                         <Link
+                    <td className="p-3">
+                      {new Date(blog.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="p-3">
+                      {new Date(blog.updatedAt).toLocaleDateString()}
+                    </td>
+                    <td className="p-3 flex flex-wrap gap-2">
+                      <Link
                         to={`/admin/update-blog/${blog._id}`}
-                        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        className="px-3 py-1 bg-blue-500 text-white rounded"
                       >
                         Edit
                       </Link>
-                       </button>
-
                       <button
                         onClick={() => handleDeleteBlog(blog._id)}
-                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                        className="px-3 py-1 bg-red-500 text-white rounded"
                       >
                         Delete
                       </button>
@@ -164,9 +175,17 @@ const Dashboard = () => {
             </table>
           </div>
         </section>
+
       </main>
     </div>
   );
 };
+
+const StatCard = ({ title, value, color }) => (
+  <div className={`bg-${color}-500 text-white rounded-xl shadow p-5`}>
+    <h3 className="text-sm uppercase opacity-80">{title}</h3>
+    <p className="text-3xl font-bold mt-2">{value}</p>
+  </div>
+);
 
 export default Dashboard;
