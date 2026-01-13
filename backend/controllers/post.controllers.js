@@ -143,7 +143,29 @@ const deletePost=asyncHandler(async(req,res)=>{
     }
 })
 
+const getMyBlogs = asyncHandler(async (req, res) => {
+  try {
+    const blogs = await Post.find({ author: req.user._id })
+      .sort({ createdAt: -1 });
+  
+    if (blogs.length === 0) {
+      return res.status(200).json(
+        new ApiResponse(200, [], "User has not created any blogs yet")
+      );
+    }
+  
+    return res.status(200).json(
+      new ApiResponse(200, blogs, "User blogs fetched successfully")
+    );
+  } 
+  catch (error) {
+    throw new ApiError(500, error?.message, "Failed to fetch user blogs");  
+  }
+});
+
+
+
 export {
     createPost,
-    getAllPost,getSinglePost,updatePost,deletePost
+    getAllPost,getSinglePost,updatePost,deletePost,getMyBlogs
 }

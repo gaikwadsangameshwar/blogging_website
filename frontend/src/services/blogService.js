@@ -44,3 +44,8 @@ export const updateBlog = async(id, data, token) =>
   await axiosInstance.patch(`/posts/${id}`, data, {
     headers: { Authorization: `Bearer ${token}` },
   });
+
+export const getMyBlogs=async()=>{
+  const res= await axiosInstance.get("/posts/my-blogs")
+  return res.data;
+}

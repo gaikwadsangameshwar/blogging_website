@@ -74,19 +74,25 @@ export default function Profile() {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col space-y-3">
+       <div className="mt-6 space-y-4">
+        <Link to="/my-blogs">
+        <button className="w-full mb-4 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-lg text-white bg-gradient-to-r from-indigo-600 to-violet-600 shadow-lg hover:shadow-xl hover:from-indigo-700 hover:to-violet-700 transition relative overflow-hidden"> 🔒 My Blogs
+        </button>
+        </Link>
+        <div className="grid grid-cols-2">
           <Link to="/editprofile">
-            <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-medium transition">
-              Edit Profile
+            <button className=" w-full border border-indigo-500 text-indigo-600 hover:bg-indigo-50  py-2 rounded-xl font-medium transition
+            "> ✏️ Edit Profile
             </button>
           </Link>
 
           <Link to="/changeavatar">
-            <button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-xl font-medium transition">
-              Change Avatar
+            <button className=" w-full border border-indigo-500 text-indigo-600 hover:bg-indigo-50 py-2 rounded-xl font-medium transition"
+            >🖼️ Change Avatar
             </button>
           </Link>
         </div>
+      </div>
       </div>
     </div>
   );

@@ -53,7 +53,6 @@ const UpdateBlog = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Title */}
           <div>
             <label className="block mb-2 font-semibold">Title</label>
             <input
@@ -65,7 +64,6 @@ const UpdateBlog = () => {
             />
           </div>
 
-          {/* Content */}
           <div>
             <label className="block mb-2 font-semibold">Content</label>
             <textarea
@@ -77,7 +75,6 @@ const UpdateBlog = () => {
             />
           </div>
 
-          {/* Category */}
           <div>
             <label className="block mb-2 font-semibold">Category</label>
             <input
@@ -88,8 +85,7 @@ const UpdateBlog = () => {
               required
             />
           </div>
-
-          {/* Buttons */}
+          
           <div className="flex gap-4">
             <button
               type="submit"
