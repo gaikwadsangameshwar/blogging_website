@@ -45,7 +45,6 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50">
 
-      {/* Sidebar / Topbar */}
       <aside className="w-full md:w-64 bg-white shadow-md p-4 md:p-6">
         <h2 className="text-xl md:text-3xl font-bold text-indigo-600 mb-4 md:mb-10">
           Admin Panel
@@ -57,10 +56,10 @@ const Dashboard = () => {
         </nav>
       </aside>
 
-      {/* Main Content */}
+     
       <main className="flex-1 p-4 sm:p-6 md:p-10">
 
-        {/* Stats Cards */}
+       
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard title="Total Users" value={users.length} color="indigo" />
           <StatCard title="Total Blogs" value={blogs.length} color="green" />
@@ -76,7 +75,7 @@ const Dashboard = () => {
           />
         </section>
 
-        {/* Users Table */}
+        
         <section id="users" className="mb-10">
           <h2 className="text-xl md:text-2xl font-bold text-indigo-600 mb-4">
             All Users
