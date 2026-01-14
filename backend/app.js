@@ -12,9 +12,8 @@ config()
 
 app.use(cors({
     origin:[
-      "http://localhost:5173",
-      "https://personal-blog-rho-navy.vercel.app"],
-      credentials:true
+      "https://sangameshwar-blog.vercel.app/"],
+      withCredentials:true
 }))
 
 
@@ -23,7 +22,7 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
   res.send("Backned running 🚀");
 });
 
