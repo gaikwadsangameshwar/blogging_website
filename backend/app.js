@@ -21,7 +21,9 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
-
+app.get("/api/v1", (req, res) => {
+  res.send("API v1 is running 🚀");
+});
 
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/posts",postRouer)
