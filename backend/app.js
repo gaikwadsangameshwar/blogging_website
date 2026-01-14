@@ -13,8 +13,6 @@ config()
 app.use(cors({
   origin: "https://sangameshwar-blog.vercel.app",
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.options("*", cors());
