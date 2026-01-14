@@ -180,8 +180,15 @@ const Dashboard = () => {
   );
 };
 
+const colorMap = {
+  indigo: "bg-indigo-500",
+  green: "bg-green-500",
+  blue: "bg-blue-500",
+  yellow: "bg-yellow-500",
+};
+
 const StatCard = ({ title, value, color }) => (
-  <div className={`bg-${color}-500 text-white rounded-xl shadow p-5`}>
+  <div className={`${colorMap[color]} text-white rounded-xl shadow p-5`}>
     <h3 className="text-sm uppercase opacity-80">{title}</h3>
     <p className="text-3xl font-bold mt-2">{value}</p>
   </div>
