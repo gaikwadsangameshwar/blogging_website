@@ -10,8 +10,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://my-personal-gamma.vercel.app"
+      process.env.FRONTEND_URL,
     ],
     credentials: true,
   })
