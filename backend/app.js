@@ -10,20 +10,22 @@ const app=express()
 
 config()
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173", 
-      process.env.FRONTEND_URL 
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  })
-);
+import cors from "cors";
 
-// 👇 this is CRUCIAL for preflight
-app.options("*", cors());
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "https://sangameshwar-blog.vercel.app"
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+
+app.use(cors(corsOptions));
+
+// 👇 VERY IMPORTANT for Render + Vercel
+app.options("*", cors(corsOptions));
 
 
 app.use(express.json({limit: "16kb"}))
