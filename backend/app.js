@@ -13,8 +13,8 @@ config()
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", // local frontend
-      process.env.FRONTEND_URL // production frontend
+      "http://localhost:5173", 
+      process.env.FRONTEND_URL 
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -24,7 +24,6 @@ app.use(
 
 // 👇 this is CRUCIAL for preflight
 app.options("*", cors());
-
 
 
 app.use(express.json({limit: "16kb"}))
