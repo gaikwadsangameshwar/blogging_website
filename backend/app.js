@@ -9,7 +9,7 @@ import commentsRouter from "./routes/comments.routes.js"
 const app=express()
 
 config()
-a
+
 const corsOptions = {
   origin: [
     "http://localhost:5173",
