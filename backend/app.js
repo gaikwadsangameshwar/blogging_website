@@ -11,11 +11,10 @@ const app=express()
 config()
 
 app.use(cors({
-  origin: "https://sangameshwar-blog.vercel.app",
+  origin: process.env.FRONTEND_URL,
   credentials: true,
 }));
 
-app.options("*", cors());
 
 
 app.use(express.json({limit: "16kb"}))
