@@ -1,18 +1,20 @@
 import axiosInstance from "./axios";
 
-
 export const createBlog = async (data) => {
+  const token = localStorage.getItem("token"); // ✅ ADD THIS
+
   const res = await axiosInstance.post(
-  "/posts/createPost",
-  data,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-);
-return res.data;
-}
+    "/posts/createPost",
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return res.data;
+};
 
 
 export const getSingleBlog = async (postId) => {
