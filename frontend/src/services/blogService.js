@@ -1,7 +1,7 @@
 import axiosInstance from "./axios";
 
 export const createBlog = async (data) => {
-  const token = localStorage.getItem("token"); // ✅ ADD THIS
+  const token = localStorage.getItem("token"); 
 
   const res = await axiosInstance.post(
     "/posts/createPost",
