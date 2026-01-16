@@ -31,6 +31,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/users",userRouter)
-app.use("/posts",postRouer)
+app.use("/api/v1/posts",postRouer)
 app.use("/api/v1/comments",commentsRouter)
 export default app;
