@@ -89,7 +89,6 @@ const Dashboard = () => {
                   <th className="p-3 text-left">Email</th>
                   <th className="p-3 text-left">Role</th>
                   <th className="p-3 text-left">Joined</th>
-                  <th className="p-3 text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -101,14 +100,6 @@ const Dashboard = () => {
                     <td className="p-3">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="p-3 flex flex-wrap gap-2">
-                      <button className="px-3 py-1 bg-blue-500 text-white rounded">
-                        Edit
-                      </button>
-                      <button className="px-3 py-1 bg-red-500 text-white rounded">
-                        Delete
-                      </button>
-                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -116,7 +107,6 @@ const Dashboard = () => {
           </div>
         </section>
 
-        {/* Blogs Table */}
         <section id="blogs">
           <h2 className="text-xl md:text-2xl font-bold text-indigo-600 mb-4">
             All Blogs
