@@ -87,7 +87,7 @@ function Navbar() {
             Create Blog
           </button>
 
-          {user?.role !== "admin" && (
+          {user?.role === "admin" && (
             <Link
               to="/dashboard"
               onClick={() => setOpen(false)}
