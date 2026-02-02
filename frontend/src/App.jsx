@@ -13,7 +13,6 @@ import AdminRoutes from './Components/admin/AdminRoutes'
 import Dashboard from './Components/admin/Dashboard'
 import UpdateBlog from './Components/admin/UpdateBlog'
 import MyBlogs from './Components/auth/MyBlogs'
-import ForgotPassword from './Components/auth/ForgotPassword'
 
 function App() {
 
@@ -28,9 +27,7 @@ function App() {
       <Route path="/profile" element={<UserProfile />}/>
 
       <Route path="/editprofile" element={<EditProfile/>}/>
-
-      <Route path="/change-password" element={<ForgotPassword/>}/>
-
+      
       <Route path="/changeavatar" element={<ChangeAvatar/>}/>
 
       <Route path="/blog/:postId" element={<BlogSingleDetails />} />

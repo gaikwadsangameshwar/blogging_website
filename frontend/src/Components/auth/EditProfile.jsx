@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; 
-import { getProfile, updateDetails,  logout } from "../../services/authService";
+import { getProfile, updateDetails, updatePassword, logout } from "../../services/authService";
 
 export default function EditProfile() {
   const navigate = useNavigate(); 
   const [form, setForm] = useState({ username: "", email: "" });
+  const [password, setPassword] = useState({ oldPassword: "", newPassword: "" });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
@@ -23,7 +24,7 @@ export default function EditProfile() {
   }, []);
 
   const handleProfileChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  
+  const handlePasswordChange = (e) => setPassword({ ...password, [e.target.name]: e.target.value });
 
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
@@ -43,6 +44,26 @@ export default function EditProfile() {
     }
   };
 
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    setSuccess(false);
+
+    try {
+      await updatePassword(password);
+      setSuccess(true);
+      setMessage("Password changed successfully");
+      setPassword({ oldPassword: "", newPassword: "" });
+    } catch (err) {
+      console.error(err);
+      setMessage("Password update failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
   const handleLogout = async () => {
     setLoading(true);
     setMessage("");
@@ -53,6 +74,9 @@ export default function EditProfile() {
       setMessage("Logged out successfully");
       setSuccess(true);
       setForm({ username: "", email: "" });
+      setPassword({ oldPassword: "", newPassword: "" });
+
+      
       navigate("/login"); 
     } catch (err) {
       console.error(err);
@@ -67,6 +91,8 @@ export default function EditProfile() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-6 rounded-2xl shadow-lg space-y-6">
         <h2 className="text-2xl font-semibold text-center text-gray-800">Account Settings</h2>
+
+        
         <form onSubmit={handleProfileSubmit} className="space-y-4">
           <h3 className="text-lg font-medium text-gray-700">Profile Details</h3>
           <input
@@ -89,6 +115,31 @@ export default function EditProfile() {
             Update Profile
           </button>
         </form>
+
+
+        <form onSubmit={handlePasswordSubmit} className="space-y-4">
+          <h3 className="text-lg font-medium text-gray-700">Change Password</h3>
+          <input
+            type="password"
+            name="oldPassword"
+            placeholder="Current password"
+            value={password.oldPassword}
+            onChange={handlePasswordChange}
+            className="w-full border rounded-lg px-3 py-2"
+          />
+          <input
+            type="password"
+            name="newPassword"
+            placeholder="New password"
+            value={password.newPassword}
+            onChange={handlePasswordChange}
+            className="w-full border rounded-lg px-3 py-2"
+          />
+          <button disabled={loading} className="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg">
+            Change Password
+          </button>
+        </form>
+
         <button
           onClick={handleLogout}
           disabled={loading}
