@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { loginUser } from "../../services/authService"; 
+import { loginUser } from "../../services/authService";
 import toast from "react-hot-toast";
 
 export default function LoginForm() {
@@ -18,94 +18,107 @@ export default function LoginForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
+      const response = await loginUser(formData);
+      const { user, accessToken, refreshToken } = response.data;
 
-    const response = await loginUser(formData);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
 
-    // ✅ CORRECT RESPONSE PATH
-    const { user, accessToken, refreshToken } = response.data;
-
-    // ✅ SAVE AUTH DATA
-    localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("token", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-
-    toast.success("Login successful!");
-
-    // ✅ ROLE-BASED REDIRECT
-    if (user.role === "admin") {
+      toast.success("Login successful!");
       navigate("/home", { replace: true });
-    } else {
-      navigate("/home", { replace: true });
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
-
-  } catch (err) {
-    console.error("LOGIN ERROR:", err);
-    setError(err.response?.data?.message || "Login failed");
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-900 text-white px-4 md:px-20 gap-10">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
-      <div className="text-center md:text-left md:w-1/2 space-y-4">
-        <h1 className="text-3xl font-bold">Welcome Back!</h1>
-        <p className="text-gray-300">
-          Login to access your account and start exploring amazing blogs on our platform.
-        </p>
+        {/* LEFT TEXT (VISIBLE ON MOBILE & DESKTOP) */}
+        <div className="text-white text-center md:text-left space-y-4 px-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+            Welcome Back 👋
+          </h1>
+          <p className="text-gray-300 text-sm sm:text-base md:text-lg">
+            Login to your account and start exploring amazing blogs and ideas.
+          </p>
+        </div>
+
+        {/* LOGIN CARD */}
+        <div className="w-full max-w-md bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl mx-auto">
+          <h2 className="text-2xl font-bold text-center text-white mb-6">
+            Login
+          </h2>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Username */}
+            <input
+              type="text"
+              name="username"
+              placeholder="Username or Email"
+              value={formData.username}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+
+            {/* Password */}
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+
+            {/* Error */}
+            {error && (
+              <p className="text-red-500 text-sm text-center">
+                {error}
+              </p>
+            )}
+
+            {/* Login Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full py-3 rounded-lg font-semibold transition-all ${
+                loading
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {loading ? "Logging..." : "Login"}
+            </button>
+
+            <div className="flex justify-between text-sm pt-2">
+              <Link
+                to="/change-password"
+                className="text-blue-400 hover:underline"
+              >
+                Change Password?
+              </Link>
+
+              <Link
+                to="/"
+                className="text-blue-400 hover:underline"
+              >
+                Register
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
-
-      
-      <form
-        noValidate
-        onSubmit={handleSubmit}
-        className="flex flex-col w-full md:w-1/2 gap-4 bg-gray-800 p-8 rounded-2xl shadow-lg"
-      >
-        <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
-
-        <input
-          type="text"
-          name="username"
-          placeholder="Enter your username"
-          value={formData.username}
-          onChange={handleChange}
-          className="border border-gray-600 px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:border-blue-500"
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-          value={formData.password}
-          onChange={handleChange}
-          className="border border-gray-600 px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:border-blue-500"
-        />
-
-        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-blue-600 hover:bg-blue-700 transition-colors py-2 rounded-lg font-semibold text-lg"
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
-
-        <p className="text-center text-sm text-gray-400">
-          Don’t have an account?{" "}
-          <Link to="/" className="text-blue-500 hover:underline">
-            Register
-          </Link>
-        </p>
-      </form>
     </div>
   );
 }

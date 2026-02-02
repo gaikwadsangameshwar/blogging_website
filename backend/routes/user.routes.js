@@ -16,7 +16,7 @@ router.route("/register").post(upload.fields([
 
 router.route("/login").post(login)
 router.route("/logout").post(VerifyJWT,logout)
-router.route("/change-password").post(VerifyJWT,changeUserPassword)
+router.route("/change-password").post(changeUserPassword)
 router.route("/change-avatar").post(VerifyJWT,upload.single("avatar"),changeUserAvatar)
 router.route("/me").get(VerifyJWT,getSingleUser)
 router.route("/refresh-token").post(refreshAccessToken)

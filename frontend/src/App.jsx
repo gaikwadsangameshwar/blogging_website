@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes,Route } from 'react-router-dom'
- import Home from './pages/Home'
+import Home from './pages/Home'
 import CreateBlog from './pages/CreateBlog'
 import RegisterUser from './Components/auth/RegisterUser'
 import LoginForm from './Components/auth/LoginForm'
@@ -13,6 +13,7 @@ import AdminRoutes from './Components/admin/AdminRoutes'
 import Dashboard from './Components/admin/Dashboard'
 import UpdateBlog from './Components/admin/UpdateBlog'
 import MyBlogs from './Components/auth/MyBlogs'
+import ForgotPassword from './Components/auth/ForgotPassword'
 
 function App() {
 
@@ -21,9 +22,15 @@ function App() {
       <Route path="/home" element={<Home/>}/> 
 
       <Route path='/' element={<RegisterUser/>}/>
+
       <Route path='/login' element={<LoginForm/>}/>
+
       <Route path="/profile" element={<UserProfile />}/>
+
       <Route path="/editprofile" element={<EditProfile/>}/>
+
+      <Route path="/change-password" element={<ForgotPassword/>}/>
+
       <Route path="/changeavatar" element={<ChangeAvatar/>}/>
 
       <Route path="/blog/:postId" element={<BlogSingleDetails />} />
