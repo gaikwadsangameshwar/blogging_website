@@ -24,14 +24,16 @@ export default function BlogCard({ blog }) {
   };
 
   return (
-    <Link to={`/blog/${blog._id}`} className="block">
+    <Link to={`/blog/${blog._id}`} className="block h-full">
       <div
         className="
           relative bg-gray-800 text-white rounded-2xl shadow-lg overflow-hidden
-          flex flex-col transition-transform duration-300
+          flex flex-col h-full
+          transition-transform duration-300
           md:hover:scale-105
         "
       >
+
         <button
           onClick={handleLike}
           disabled={loading}
@@ -60,16 +62,18 @@ export default function BlogCard({ blog }) {
           </div>
         )}
 
-        <div className="p-3 sm:p-4 md:p-5 flex flex-col gap-2 sm:gap-3">
+     
+        <div className="p-3 sm:p-4 md:p-5 flex flex-col flex-1">
           <h2 className="text-base sm:text-lg md:text-xl font-bold line-clamp-1">
             {blog.title}
           </h2>
 
-          <span className="text-blue-400 text-xs sm:text-sm">
+          <span className="text-blue-400 text-xs sm:text-sm mt-1">
             {blog.category}
           </span>
 
-          <p className="text-gray-300 text-sm sm:text-base line-clamp-3">
+         
+          <p className="text-gray-300 text-sm sm:text-base line-clamp-3 mt-2 flex-1">
             {blog.context}
           </p>
         </div>

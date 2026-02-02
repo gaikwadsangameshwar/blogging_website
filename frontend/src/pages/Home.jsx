@@ -7,7 +7,7 @@ import Footer from "./Footer"
 function Home() {
   return (
     <>
-         <Navbar/>
+        <Navbar/>
         <Header/>
         <BlogList/> 
         <Footer/>

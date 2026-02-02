@@ -1,3 +1,6 @@
+import { Github, Linkedin,Home  } from "lucide-react";
+
+
 export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-300">
@@ -20,7 +23,7 @@ export default function Footer() {
           <ul className="space-y-2 text-sm">
             <li>
               <a href="/" className="hover:text-sky-400 transition">
-                Home
+               <Home size={24} className="text-gray-700 hover:text-indigo-600 transition" />
               </a>
             </li>
           </ul>
@@ -36,14 +39,14 @@ export default function Footer() {
               target="_blank"
               className="hover:text-sky-400 transition"
             >
-              GitHub
+             <Github size={24} />
             </a>
             <a
               href="https://www.linkedin.com/in/sangameshwar-gaikwad-a83426340"
               target="_blank"
               className="hover:text-sky-400 transition"
             >
-              LinkedIn
+                <Linkedin size={24} />
             </a>
           </div>
         </div>
