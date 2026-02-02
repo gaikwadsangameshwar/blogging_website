@@ -62,6 +62,9 @@ This project is built to simulate a **real-world production application**, focus
 ## Admin Panel
 <img width="900" height="900" alt="Screenshot 2026-01-17 122219" src="https://github.com/user-attachments/assets/050af034-c337-411a-b3df-fca660fd3d24" />
 
+## Admin Can see the User
+<img width="900" height="900" alt="Screenshot 2026-01-17 122219" src="https://github.com/user-attachments/assets/050af034-c337-411a-b3df-fca660fd3d24" />
+
 ## Admin Can see the user and Blogs and Updated and delete
 <img width="900" height="900" alt="Screenshot 2026-01-17 122234" src="https://github.com/user-attachments/assets/90ae6a43-45ed-48d9-80ef-4d1c5e50ff70" />
 
