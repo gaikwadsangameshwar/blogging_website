@@ -31,10 +31,10 @@ export default function LoginForm() {
       localStorage.setItem("token", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
 
-      toast.success("Login successful!");
+      toast.success("Welcome back!");
       navigate("/home", { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(err.response?.data?.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }
@@ -43,25 +43,23 @@ export default function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4">
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-
-        {/* LEFT TEXT (VISIBLE ON MOBILE & DESKTOP) */}
         <div className="text-white text-center md:text-left space-y-4 px-4">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+          <h1 className="text-3xl sm:text-4xl font-bold">
             Welcome Back 👋
           </h1>
           <p className="text-gray-300 text-sm sm:text-base md:text-lg">
-            Login to your account and start exploring amazing blogs and ideas.
+            Login to your account and continue sharing and exploring amazing blogs.
           </p>
         </div>
 
-        {/* LOGIN CARD */}
+       
         <div className="w-full max-w-md bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl mx-auto">
           <h2 className="text-2xl font-bold text-center text-white mb-6">
             Login
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Username */}
+            
             <input
               type="text"
               name="username"
@@ -71,7 +69,7 @@ export default function LoginForm() {
               className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
-            {/* Password */}
+      
             <input
               type="password"
               name="password"
@@ -80,15 +78,13 @@ export default function LoginForm() {
               onChange={handleChange}
               className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-
-            {/* Error */}
             {error && (
               <p className="text-red-500 text-sm text-center">
                 {error}
               </p>
             )}
 
-            {/* Login Button */}
+           
             <button
               type="submit"
               disabled={loading}
@@ -98,24 +94,18 @@ export default function LoginForm() {
                   : "bg-blue-600 hover:bg-blue-700"
               }`}
             >
-              {loading ? "Logging..." : "Login"}
+              {loading ? "Loggging..." : "Login"}
             </button>
 
-            <div className="flex justify-between text-sm pt-2">
-              <Link
-                to="/change-password"
-                className="text-blue-400 hover:underline"
-              >
-                Change Password?
-              </Link>
-
+            <p className="text-center text-sm text-gray-400 pt-2">
+              Don’t have an account?{" "}
               <Link
                 to="/"
                 className="text-blue-400 hover:underline"
               >
                 Register
               </Link>
-            </div>
+            </p>
           </form>
         </div>
       </div>
