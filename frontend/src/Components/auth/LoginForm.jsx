@@ -94,7 +94,7 @@ export default function LoginForm() {
                   : "bg-blue-600 hover:bg-blue-700"
               }`}
             >
-              {loading ? "Loging..." : "Login"}
+              {loading ? "Logging..." : "Login"}
             </button>
 
             <p className="text-center text-sm text-gray-400 pt-2">
